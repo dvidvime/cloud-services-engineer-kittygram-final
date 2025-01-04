@@ -14,7 +14,8 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
   backend:
-    image: dvidvi/kittygram_backend
+    # Из какого Dockerfile собирать образ для этого контейнера:
+    build: ./backend/
     env_file: .env
     # Какие контейнеры нужно запустить до старта этого контейнера:
     depends_on:
@@ -23,7 +24,7 @@ services:
       - static:/app/collected_static
       - media:/app/media
   gateway:
-    image: dvidvi/kittygram_gateway
+    build: ./nginx/
     ports:
       - "80:80"
     depends_on:
@@ -32,6 +33,6 @@ services:
       - static:/static
       - media:/media
   frontend:
-    image: dvidvi/kittygram_frontend
+    build: ./frontend/
     volumes:
       - static:/app/build
