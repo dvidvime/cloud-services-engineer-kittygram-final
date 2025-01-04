@@ -80,7 +80,7 @@ jobs:
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: |
           cd /home/kittygram
-          echo -e "POSTGRES_DB=kittygram\nPOSTGRES_USER=kittygram_user\nPOSTGRES_PASSWORD=kittygram_password" > .env 
+          echo -e "${{ secrets.ENV_CONTENT }}" > .env
           sudo docker compose -f docker-compose.production.yml pull
           sudo docker compose -f docker-compose.production.yml down
           sudo docker compose -f docker-compose.production.yml up -d
