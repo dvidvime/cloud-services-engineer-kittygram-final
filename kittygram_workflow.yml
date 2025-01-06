@@ -109,4 +109,11 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_USER }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
-        message: All Kittygram actions completed!
+        message: |
+          ${{ github.actor }} commited ${{ github.event.commits[0].message }} 
+          Workflow actions status:
+          tests: ${{ steps.tests.outcome }}
+          build_and_push_to_docker_hub: ${{ steps.build_and_push_to_docker_hub.outcome }}
+          deploy: ${{ steps.deploy.outcome }}
+          auto_tests: ${{ steps.auto_tests.outcome }}
+          https://github.com/${{ github.repository }}/commit/${{ github.sha }}
