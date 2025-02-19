@@ -8,8 +8,13 @@ RUN npm ci
 
 COPY . .
 
-RUN npm run build && npm install --global http-server
+RUN npm run build
 
-EXPOSE 8000
+FROM nginx:stable-alpine AS production
 
-CMD ["npx", "-y", "http-server", "-p", "8000", "/app/build"]
+COPY --from=build /app/build /static
+COPY nginx.conf /etc/nginx/templates/default.conf.template
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
